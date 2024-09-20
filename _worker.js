@@ -42,6 +42,7 @@ async function handleRequest(request) {
   try {
     return await fetch(newRequest);
   } catch (error) {
-    return new Response('Server Error: Unable to fetch the resource.', { status: 502 });
+    // 返回一个空响应，不反馈任何错误信息
+    return new Response(null, { status: 204 }); // 204 No Content
   }
 }
