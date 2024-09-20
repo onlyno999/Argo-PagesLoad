@@ -1,11 +1,16 @@
 export async function onRequest(context) {
-  // 获取请求的 URL 和路径
   const { request } = context;
   const url = new URL(request.url);
 
-  // 构建目标 URL，这里是转发到 `2argos09.nbxxxxxx.us.kg`
-  const targetURL = `https://2argos09.nbxxxxxx.us.kg${url.pathname}`;
+  // 输出调试信息
+  console.log(`Pathname: ${url.pathname}`);
+  console.log(`Search Params: ${url.search}`);
 
-  // 返回 301 重定向
+  const targetURL = `https://2argos09.nbxxxxxx.us.kg${url.pathname}${url.search}`;
+
+  // 输出目标URL调试
+  console.log(`Redirecting to: ${targetURL}`);
+
+  // 重定向
   return Response.redirect(targetURL, 301);
 }
