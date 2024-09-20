@@ -13,7 +13,6 @@ const servers = [
 ];
 
 function getServerIndex(ip) {
-  // 使用简单的散列函数，可以根据需要改进
   let hash = 0;
   for (let i = 0; i < ip.length; i++) {
     hash = (hash << 5) - hash + ip.charCodeAt(i);
@@ -23,10 +22,8 @@ function getServerIndex(ip) {
 }
 
 async function handleRequest(request) {
-  // 获取请求的源 IP 地址（可以通过 headers 或其他方式获得）
   const ip = request.headers.get('cf-connecting-ip') || request.headers.get('x-forwarded-for') || request.headers.get('x-real-ip') || 'default-ip';
 
-  // 选择目标 URL
   let url = new URL(request.url);
   url.hostname = servers[getServerIndex(ip)];
 
@@ -38,11 +35,6 @@ async function handleRequest(request) {
     redirect: request.redirect
   });
 
-  // 尝试发送请求，捕获可能的错误
-  try {
-    return await fetch(newRequest);
-  } catch (error) {
-    // 返回404错误，表示找不到资源，但这是正常行为
-    return new Response('404 Not Found', { status: 404 });
-  }
+  // 直接返回转发的结果（包括 404 响应）
+  return fetch(newRequest);
 }
