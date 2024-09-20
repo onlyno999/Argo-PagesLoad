@@ -42,7 +42,7 @@ async function handleRequest(request) {
   try {
     return await fetch(newRequest);
   } catch (error) {
-    // 返回一个空响应，不反馈任何错误信息
-    return new Response(null, { status: 204 }); // 204 No Content
+    // 返回404错误，表示找不到资源，但这是正常行为
+    return new Response('404 Not Found', { status: 404 });
   }
 }
